@@ -1,4 +1,4 @@
- "certificate_id": "MMLI-2026-33F7DACB",
+{ "certificate_id": "MMLI-2026-33F7DACB",
   "name": "B. Hallison F. Thomas",
   "certificate_type": "Academic Achievement",
   "achievement_area": "Mathematics",
@@ -9,3 +9,17 @@
   "coordinator": "Director of Academic Affairs",
   "issued": "2026-08-11T21:35:57.659Z"
   }
+
+{
+  "certificate_id": "MMLI-2026-923BC887",
+  "name": "THOMAS HALLISON",
+  "certificate_type": "Academic Achievement",
+  "achievement_area": "Mathematics",
+  "award": "Outstanding Mathematics Students 2026",
+  "program": "MMLI Back-to-School Academic Quiz Challenge 2026",
+  "date": "2026-08-11",
+  "signatory": "Executive Director",
+  "coordinator": "Director of Academic Affairs",
+  "issued": "2026-08-11T21:44:07.309Z"
+}
+
