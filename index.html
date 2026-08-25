@@ -6,6 +6,88 @@
   <title>Mind Masters Liberia Initiative</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <style>
+    /* ===== Floating Confirmed Schools badge (zero layout footprint) ===== */
+    #mmli-fab {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 1050;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 18px 12px 14px;
+      border-radius: 999px;
+      text-decoration: none;
+      background: linear-gradient(135deg, #08213D 0%, #123a63 55%, #08213D 100%);
+      color: #ffd452;
+      box-shadow: 0 8px 24px rgba(8, 33, 61, 0.35), 0 0 0 0 rgba(255, 196, 0, 0.55);
+      border: 1px solid rgba(255, 196, 0, 0.35);
+      font-weight: 600;
+      font-size: 0.92rem;
+      letter-spacing: 0.2px;
+      animation: mmli-float 3.6s ease-in-out infinite, mmli-pulse 2.6s ease-out infinite;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+      opacity: 0;
+      transform: translateY(16px);
+      animation-fill-mode: forwards;
+    }
+    #mmli-fab.mmli-in {
+      opacity: 1;
+      transform: translateY(0);
+      animation: mmli-entrance 0.6s ease forwards, mmli-float 3.6s ease-in-out 0.6s infinite, mmli-pulse 2.6s ease-out 0.6s infinite;
+    }
+    #mmli-fab:hover {
+      transform: translateY(-4px) scale(1.04);
+      box-shadow: 0 14px 30px rgba(8, 33, 61, 0.45), 0 0 0 6px rgba(255, 196, 0, 0.12);
+      color: #fff2c9;
+      text-decoration: none;
+    }
+    #mmli-fab .mmli-fab-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: rgba(255, 196, 0, 0.16);
+      flex-shrink: 0;
+      animation: mmli-spin-tiny 6s linear infinite;
+    }
+    #mmli-fab .mmli-fab-icon svg { width: 15px; height: 15px; }
+    #mmli-fab .mmli-fab-text small {
+      display: block;
+      font-weight: 400;
+      color: #cfe0f5;
+      font-size: 0.68rem;
+      letter-spacing: 0.3px;
+    }
+    @keyframes mmli-entrance {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes mmli-float {
+      0%, 100% { transform: translateY(0); }
+      50%      { transform: translateY(-7px); }
+    }
+    @keyframes mmli-pulse {
+      0%   { box-shadow: 0 8px 24px rgba(8,33,61,0.35), 0 0 0 0 rgba(255,196,0,0.45); }
+      70%  { box-shadow: 0 8px 24px rgba(8,33,61,0.35), 0 0 0 10px rgba(255,196,0,0); }
+      100% { box-shadow: 0 8px 24px rgba(8,33,61,0.35), 0 0 0 0 rgba(255,196,0,0); }
+    }
+    @keyframes mmli-spin-tiny {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+    @media (max-width: 576px) {
+      #mmli-fab { padding: 12px; }
+      #mmli-fab .mmli-fab-text { display: none; }
+      #mmli-fab { right: 14px; bottom: 14px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      #mmli-fab, #mmli-fab.mmli-in { animation: none !important; }
+    }
+  </style>
 </head>
 <body>
 
@@ -294,7 +376,27 @@
     });
   }, { threshold: 0.01, rootMargin: '0px 0px -10px 0px' });
   revealEls.forEach(el => observer.observe(el));
+
+  // Floating Confirmed Schools badge — entrance animation
+  const fab = document.getElementById('mmli-fab');
+  if (fab) {
+    requestAnimationFrame(() => setTimeout(() => fab.classList.add('mmli-in'), 400));
+  }
 </script>
+
+<!-- FLOATING CONFIRMED SCHOOLS BADGE (fixed position — adds no page height) -->
+<a href="https://bhfthomas2003-jpg.github.io/mmli-schools-database/showcase.html" target="_blank" rel="noopener" id="mmli-fab" aria-label="View Confirmed Partner Schools">
+  <span class="mmli-fab-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor">
+      <path d="M8 0 1 3.5 8 7l6.16-3.08A1 1 0 0 0 14.16 3L8 0Z"/>
+      <path d="M2 7.5v3c0 1 2.5 2.5 6 2.5s6-1.5 6-2.5v-3l-6 3-6-3Z"/>
+    </svg>
+  </span>
+  <span class="mmli-fab-text">
+    Confirmed Schools
+    <small>See who's competing &rarr;</small>
+  </span>
+</a>
 </body>
             </html>
       
