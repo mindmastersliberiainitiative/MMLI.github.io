@@ -88,7 +88,7 @@
       #mmli-fab, #mmli-fab.mmli-in { animation: none !important; }
     }
 
-    /* ===== Highlights & Moments — grouped animated gallery ===== */
+    /* ===== Highlights & Moments — album-carousel gallery (AOA-style) ===== */
     .gallery-live-badge {
       display: inline-flex;
       align-items: center;
@@ -110,107 +110,121 @@
       box-shadow: 0 0 0 0 rgba(255, 196, 0, 0.6);
       animation: mmli-pulse 1.8s ease-out infinite;
     }
-    .gallery-filters {
+    .gallery-albums {
       display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 10px;
-      margin-bottom: 32px;
+      flex-direction: column;
+      gap: 30px;
+      max-width: 760px;
+      margin: 0 auto;
     }
-    .gf-btn {
-      border: 1px solid rgba(8, 33, 61, 0.18);
+    .album-card {
       background: #fff;
+      border-radius: 22px;
+      padding: 22px 22px 26px;
+      box-shadow: 0 10px 34px rgba(8, 33, 61, 0.10);
+      opacity: 0;
+      transform: translateY(36px);
+      transition: opacity 0.65s ease, transform 0.65s cubic-bezier(.19,1,.22,1), box-shadow 0.3s ease;
+    }
+    .album-card.in-view { opacity: 1; transform: translateY(0); }
+    .gallery-albums .album-card:nth-child(1) { transition-delay: 0.05s; }
+    .gallery-albums .album-card:nth-child(2) { transition-delay: 0.15s; }
+    .gallery-albums .album-card:nth-child(3) { transition-delay: 0.25s; }
+    .gallery-albums .album-card:nth-child(4) { transition-delay: 0.35s; }
+    .album-card:hover { box-shadow: 0 18px 44px rgba(8, 33, 61, 0.18); }
+    .album-title {
+      font-weight: 800;
       color: #08213D;
-      padding: 8px 18px;
-      border-radius: 999px;
-      font-size: 0.88rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.25s ease;
+      margin-bottom: 14px;
+      font-size: 1.3rem;
     }
-    .gf-btn:hover { border-color: #08213D; transform: translateY(-2px); }
-    .gf-btn.active {
-      background: #08213D;
-      color: #ffd452;
-      border-color: #08213D;
-      box-shadow: 0 6px 16px rgba(8, 33, 61, 0.25);
+    .album-slider {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      aspect-ratio: 16 / 10;
+      background: #eef1f5;
     }
-    .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-      grid-auto-rows: 210px;
-      grid-auto-flow: dense;
-      gap: 16px;
+    .album-track {
+      display: flex;
+      height: 100%;
+      transition: transform 0.65s cubic-bezier(.65,0,.35,1);
     }
-    .g-item {
+    .album-slide {
+      min-width: 100%;
+      height: 100%;
       position: relative;
       overflow: hidden;
-      border-radius: 16px;
-      cursor: pointer;
-      box-shadow: 0 6px 18px rgba(8, 33, 61, 0.12);
-      opacity: 0;
-      transform: translateY(24px) scale(0.97);
-      transition: opacity 0.55s ease, transform 0.55s ease, box-shadow 0.3s ease;
     }
-    .gallery-grid.in-view .g-item { opacity: 1; transform: translateY(0) scale(1); }
-    .gallery-grid.in-view .g-item:nth-child(1)  { transition-delay: 0.02s; }
-    .gallery-grid.in-view .g-item:nth-child(2)  { transition-delay: 0.08s; }
-    .gallery-grid.in-view .g-item:nth-child(3)  { transition-delay: 0.14s; }
-    .gallery-grid.in-view .g-item:nth-child(4)  { transition-delay: 0.20s; }
-    .gallery-grid.in-view .g-item:nth-child(5)  { transition-delay: 0.26s; }
-    .gallery-grid.in-view .g-item:nth-child(6)  { transition-delay: 0.32s; }
-    .gallery-grid.in-view .g-item:nth-child(7)  { transition-delay: 0.38s; }
-    .gallery-grid.in-view .g-item:nth-child(8)  { transition-delay: 0.44s; }
-    .gallery-grid.in-view .g-item:nth-child(9)  { transition-delay: 0.50s; }
-    .gallery-grid.in-view .g-item:nth-child(10) { transition-delay: 0.56s; }
-    .gallery-grid.in-view .g-item:nth-child(11) { transition-delay: 0.62s; }
-    .g-item.g-hide { opacity: 0 !important; transform: translateY(10px) scale(0.94) !important; pointer-events: none; }
-    .g-item.g-span-2 { grid-column: span 2; }
-    .g-item.g-tall   { grid-row: span 2; }
-    .g-item:hover { box-shadow: 0 14px 30px rgba(8, 33, 61, 0.28); }
-    .g-item img {
+    .album-slide img {
       width: 100%; height: 100%;
       object-fit: cover;
       display: block;
-      transition: transform 0.7s cubic-bezier(.2,.8,.2,1);
+      cursor: pointer;
+      transform: scale(1);
+      transition: transform 6s ease-out;
     }
-    .g-item:hover img { transform: scale(1.09); }
-    .g-item:focus-visible { outline: 3px solid #ffc400; outline-offset: 2px; }
-    .g-tag {
-      position: absolute;
-      top: 10px; left: 10px;
-      background: rgba(8, 33, 61, 0.75);
+    .album-slide.is-active img { transform: scale(1.09); }
+    .album-slide-cap {
+      position: absolute; left: 0; right: 0; bottom: 0;
+      padding: 24px 16px 12px;
+      background: linear-gradient(to top, rgba(8,33,61,0.88) 10%, rgba(8,33,61,0) 100%);
       color: #ffd452;
-      font-size: 0.65rem;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      padding: 4px 10px;
+      font-weight: 600;
+      font-size: 0.85rem;
+    }
+    .album-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(255,255,255,0.85);
+      color: #08213D;
+      font-size: 1.3rem;
+      line-height: 1;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s ease, transform 0.2s ease;
+      z-index: 2;
+    }
+    .album-nav:hover { background: #ffc400; transform: translateY(-50%) scale(1.08); }
+    .album-nav.prev { left: 12px; }
+    .album-nav.next { right: 12px; }
+    .album-dots {
+      position: absolute;
+      bottom: 10px; left: 50%;
+      transform: translateX(-50%);
+      display: flex; gap: 6px;
+      z-index: 2;
+    }
+    .album-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.55);
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+    .album-dot.active { background: #ffc400; transform: scale(1.35); }
+    .album-desc { color: #5a6472; margin-top: 16px; margin-bottom: 0; }
+    .album-foot { display: flex; justify-content: flex-end; margin-top: 14px; }
+    .album-view-btn {
+      background: #08213D;
+      color: #ffd452;
+      border: none;
+      padding: 10px 22px;
       border-radius: 999px;
-      backdrop-filter: blur(2px);
+      font-weight: 600;
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: all 0.25s ease;
     }
-    .g-caption {
-      position: absolute;
-      left: 0; right: 0; bottom: 0;
-      padding: 30px 14px 12px;
-      background: linear-gradient(to top, rgba(8,33,61,0.92) 10%, rgba(8,33,61,0) 100%);
-      color: #fff;
-      transform: translateY(8px);
-      transition: transform 0.35s ease;
+    .album-view-btn:hover {
+      background: #123a63;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(8, 33, 61, 0.28);
     }
-    .g-caption strong { display: block; font-size: 0.92rem; line-height: 1.25; }
-    .g-caption span.g-sub {
-      display: block;
-      font-size: 0.76rem;
-      color: #ffd452;
-      max-height: 0;
-      opacity: 0;
-      overflow: hidden;
-      transition: max-height 0.3s ease, opacity 0.3s ease;
-    }
-    .g-item:hover .g-caption span.g-sub,
-    .g-item:focus-visible .g-caption span.g-sub { max-height: 20px; opacity: 1; }
-    .g-item:hover .g-caption { transform: translateY(0); }
     .gallery-cta { text-align: center; margin-top: 34px; }
 
     /* Lightbox */
@@ -255,11 +269,11 @@
     @media (max-width: 576px) {
       .lb-prev, .lb-next { width: 38px; height: 38px; font-size: 1.1rem; }
       .lb-prev { left: 8px; } .lb-next { right: 8px; }
-      .gallery-grid { grid-auto-rows: 170px; }
-      .g-item.g-span-2 { grid-column: span 2; }
+      .album-card { padding: 16px 16px 20px; border-radius: 18px; }
+      .album-title { font-size: 1.1rem; }
     }
     @media (prefers-reduced-motion: reduce) {
-      .g-item, .g-item img, .g-caption, .mmli-lightbox, .lb-content img { transition: none !important; }
+      .album-card, .album-track, .album-slide img, .mmli-lightbox, .lb-content img { transition: none !important; }
     }
   </style>
 </head>
@@ -372,112 +386,121 @@
   </div>
 </section>
 
-<!-- HIGHLIGHTS & MOMENTS — UNIFIED GALLERY -->
+<!-- HIGHLIGHTS & MOMENTS — ALBUM CAROUSEL GALLERY -->
 <section class="reveal py-5 bg-light" id="gallery">
   <div class="container">
     <div class="text-center mb-2">
       <span class="gallery-live-badge"><span class="dot"></span> Live Gallery</span>
     </div>
     <h2 class="text-center mt-3 mb-2">Highlights & Moments</h2>
-    <p class="text-center text-muted mb-4">Flyers, delegations, and the trainees behind them — tap a group to explore, tap a photo to view it full-size.</p>
+    <p class="text-center text-muted mb-4">Excursions, competitions, and everyday moments from the MMLI community.</p>
 
-    <div class="gallery-filters">
-      <button class="gf-btn active" data-filter="all">All</button>
-      <button class="gf-btn" data-filter="quiz">Quiz Challenge</button>
-      <button class="gf-btn" data-filter="training">Olympiad Training</button>
-      <button class="gf-btn" data-filter="pamo">PAMO 2026</button>
-      <button class="gf-btn" data-filter="trainees">Trainees</button>
-    </div>
+    <div class="gallery-albums" id="galleryAlbums">
 
-    <div class="gallery-grid" id="galleryGrid">
+      <!-- ALBUM: Quiz Challenge -->
+      <div class="album-card">
+        <h3 class="album-title">Back-to-School Quiz Challenge 2026</h3>
+        <div class="album-slider">
+          <div class="album-track">
+            <div class="album-slide is-active">
+              <img src="back-to-school-flyer.jpg" alt="Back-to-School Academic Quiz Challenge 2026" loading="lazy"
+                   data-src="back-to-school-flyer.jpg" data-title="Back-to-School Quiz Challenge 2026" data-sub="Registration open · September 2026">
+              <span class="album-slide-cap">Registration open · September 2026</span>
+            </div>
+          </div>
+        </div>
+        <p class="album-desc">16 Junior High & 16 Senior High schools compete in "Unleashing the Genius Within."</p>
+        <div class="album-foot"><button class="album-view-btn" data-start="0">View Album &nearr;</button></div>
+      </div>
 
-      <figure class="g-item g-span-2" data-group="quiz" tabindex="0" role="button"
-              data-src="back-to-school-flyer.jpg" data-tag="Quiz Challenge"
-              data-title="Back-to-School Quiz Challenge 2026" data-sub="16 Junior High & 16 Senior High schools competing">
-        <img src="back-to-school-flyer.jpg" alt="Back-to-School Academic Quiz Challenge 2026" loading="lazy">
-        <span class="g-tag">Quiz Challenge</span>
-        <figcaption class="g-caption"><strong>Back-to-School Quiz Challenge 2026</strong><span class="g-sub">Registration open · September 2026</span></figcaption>
-      </figure>
+      <!-- ALBUM: Olympiad Training -->
+      <div class="album-card">
+        <h3 class="album-title">Olympiad Training Program</h3>
+        <div class="album-slider">
+          <div class="album-track">
+            <div class="album-slide is-active">
+              <img src="olympiad-training-flyer.jpg" alt="Olympiad Training Program" loading="lazy"
+                   data-src="olympiad-training-flyer.jpg" data-title="Olympiad Training Program" data-sub="4 branches of curriculum">
+              <span class="album-slide-cap">4 branches of curriculum</span>
+            </div>
+          </div>
+        </div>
+        <p class="album-desc">Structured training across four curriculum branches builds the skills our trainees bring to competition.</p>
+        <div class="album-foot"><button class="album-view-btn" data-start="1">View Album &nearr;</button></div>
+      </div>
 
-      <figure class="g-item" data-group="training" tabindex="0" role="button"
-              data-src="olympiad-training-flyer.jpg" data-tag="Olympiad Training"
-              data-title="Olympiad Training Program" data-sub="4 branches of the training curriculum">
-        <img src="olympiad-training-flyer.jpg" alt="Olympiad Training Program" loading="lazy">
-        <span class="g-tag">Training</span>
-        <figcaption class="g-caption"><strong>Olympiad Training Program</strong><span class="g-sub">4 branches of curriculum</span></figcaption>
-      </figure>
+      <!-- ALBUM: PAMO 2026 -->
+      <div class="album-card">
+        <h3 class="album-title">Liberia at PAMO 2026</h3>
+        <div class="album-slider">
+          <div class="album-track">
+            <div class="album-slide is-active">
+              <img src="pamo-delegation.jpg" alt="Liberian delegation at PAMO 2026" loading="lazy"
+                   data-src="pamo-delegation.jpg" data-title="The Liberian Delegation" data-sub="Yamoussoukro, Côte d'Ivoire">
+              <span class="album-slide-cap">The Liberian Delegation</span>
+            </div>
+            <div class="album-slide">
+              <img src="pamo-library.jpg" alt="Liberia and Sierra Leone teams at Librairie de la Fondation" loading="lazy"
+                   data-src="pamo-library.jpg" data-title="Liberia & Sierra Leone Teams" data-sub="Librairie de la Fondation">
+              <span class="album-slide-cap">Liberia & Sierra Leone Teams</span>
+            </div>
+            <div class="album-slide">
+              <img src="pamo-stage.jpg" alt="Liberian team on stage at PAMO 2026" loading="lazy"
+                   data-src="pamo-stage.jpg" data-title="On Stage" data-sub="PAMO 2026 opening ceremony">
+              <span class="album-slide-cap">On Stage — Opening Ceremony</span>
+            </div>
+            <div class="album-slide">
+              <img src="pamo-banner.jpg" alt="Team member beside the PAMO 2026 banner" loading="lazy"
+                   data-src="pamo-banner.jpg" data-title="Flying the Flag" data-sub="33rd Panafrican Mathematical Olympiad">
+              <span class="album-slide-cap">Flying the Flag</span>
+            </div>
+            <div class="album-slide">
+              <img src="pamo-departure.jpg" alt="Liberian team departure with flag" loading="lazy"
+                   data-src="pamo-departure.jpg" data-title="Heading Home" data-sub="Departure with the flag">
+              <span class="album-slide-cap">Heading Home</span>
+            </div>
+          </div>
+          <button class="album-nav prev" aria-label="Previous photo">&#8249;</button>
+          <button class="album-nav next" aria-label="Next photo">&#8250;</button>
+          <div class="album-dots"></div>
+        </div>
+        <p class="album-desc">Yamoussoukro, Côte d'Ivoire · June 26–July 4, 2026 — the delegation, the ceremony, and the journey home.</p>
+        <div class="album-foot"><button class="album-view-btn" data-start="2">View Album &nearr;</button></div>
+      </div>
 
-      <figure class="g-item g-tall" data-group="pamo" tabindex="0" role="button"
-              data-src="pamo-delegation.jpg" data-tag="PAMO 2026"
-              data-title="Liberian delegation at PAMO 2026" data-sub="Yamoussoukro, Côte d'Ivoire">
-        <img src="pamo-delegation.jpg" alt="Liberian delegation at PAMO 2026" loading="lazy">
-        <span class="g-tag">PAMO 2026</span>
-        <figcaption class="g-caption"><strong>The Liberian Delegation</strong><span class="g-sub">Yamoussoukro, Côte d'Ivoire</span></figcaption>
-      </figure>
-
-      <figure class="g-item" data-group="pamo" tabindex="0" role="button"
-              data-src="pamo-library.jpg" data-tag="PAMO 2026"
-              data-title="Liberia and Sierra Leone teams" data-sub="Librairie de la Fondation">
-        <img src="pamo-library.jpg" alt="Liberia and Sierra Leone teams at Librairie de la Fondation" loading="lazy">
-        <span class="g-tag">PAMO 2026</span>
-        <figcaption class="g-caption"><strong>Liberia & Sierra Leone Teams</strong><span class="g-sub">Librairie de la Fondation</span></figcaption>
-      </figure>
-
-      <figure class="g-item" data-group="pamo" tabindex="0" role="button"
-              data-src="pamo-stage.jpg" data-tag="PAMO 2026"
-              data-title="Liberian team on stage" data-sub="PAMO 2026 opening ceremony">
-        <img src="pamo-stage.jpg" alt="Liberian team on stage at PAMO 2026" loading="lazy">
-        <span class="g-tag">PAMO 2026</span>
-        <figcaption class="g-caption"><strong>On Stage</strong><span class="g-sub">Opening ceremony</span></figcaption>
-      </figure>
-
-      <figure class="g-item" data-group="pamo" tabindex="0" role="button"
-              data-src="pamo-banner.jpg" data-tag="PAMO 2026"
-              data-title="Team member beside the PAMO 2026 banner" data-sub="33rd Panafrican Mathematical Olympiad">
-        <img src="pamo-banner.jpg" alt="Team member beside the PAMO 2026 banner" loading="lazy">
-        <span class="g-tag">PAMO 2026</span>
-        <figcaption class="g-caption"><strong>Flying the Flag</strong><span class="g-sub">33rd Panafrican Math Olympiad</span></figcaption>
-      </figure>
-
-      <figure class="g-item g-span-2" data-group="pamo" tabindex="0" role="button"
-              data-src="pamo-departure.jpg" data-tag="PAMO 2026"
-              data-title="Liberian team departure" data-sub="Headed home with the flag">
-        <img src="pamo-departure.jpg" alt="Liberian team departure with flag" loading="lazy">
-        <span class="g-tag">PAMO 2026</span>
-        <figcaption class="g-caption"><strong>Heading Home</strong><span class="g-sub">Departure with the flag</span></figcaption>
-      </figure>
-
-      <figure class="g-item" data-group="trainees" tabindex="0" role="button"
-              data-src="alisha-kollie.jpg" data-tag="Trainee"
-              data-title="Alisha Kollie" data-sub="Age 13 · Number Theory">
-        <img src="alisha-kollie.jpg" alt="Alisha Kollie" loading="lazy">
-        <span class="g-tag">Trainee</span>
-        <figcaption class="g-caption"><strong>Alisha Kollie</strong><span class="g-sub">Age 13 · Number Theory</span></figcaption>
-      </figure>
-
-      <figure class="g-item" data-group="trainees" tabindex="0" role="button"
-              data-src="gormah-barning.jpg" data-tag="Trainee"
-              data-title="Gormah Barning" data-sub="Age 12 · Geometry">
-        <img src="gormah-barning.jpg" alt="Gormah Barning" loading="lazy">
-        <span class="g-tag">Trainee</span>
-        <figcaption class="g-caption"><strong>Gormah Barning</strong><span class="g-sub">Age 12 · Geometry</span></figcaption>
-      </figure>
-
-      <figure class="g-item" data-group="trainees" tabindex="0" role="button"
-              data-src="roniel-zarkpah.jpg" data-tag="Trainee"
-              data-title="Roniel Zarkpah" data-sub="Age 11 · Number Theory">
-        <img src="roniel-zarkpah.jpg" alt="Roniel Zarkpah" loading="lazy">
-        <span class="g-tag">Trainee</span>
-        <figcaption class="g-caption"><strong>Roniel Zarkpah</strong><span class="g-sub">Age 11 · Number Theory</span></figcaption>
-      </figure>
-
-      <figure class="g-item" data-group="trainees" tabindex="0" role="button"
-              data-src="james-gayflor.jpg" data-tag="Trainee"
-              data-title="James P. Gayflor" data-sub="Age 11 · Algebra & Combinatorics">
-        <img src="james-gayflor.jpg" alt="James P. Gayflor" loading="lazy">
-        <span class="g-tag">Trainee</span>
-        <figcaption class="g-caption"><strong>James P. Gayflor</strong><span class="g-sub">Age 11 · Algebra & Combinatorics</span></figcaption>
-      </figure>
+      <!-- ALBUM: Trainees -->
+      <div class="album-card">
+        <h3 class="album-title">Meet Our Olympiad Trainees</h3>
+        <div class="album-slider">
+          <div class="album-track">
+            <div class="album-slide is-active">
+              <img src="alisha-kollie.jpg" alt="Alisha Kollie" loading="lazy"
+                   data-src="alisha-kollie.jpg" data-title="Alisha Kollie" data-sub="Age 13 · Number Theory">
+              <span class="album-slide-cap">Alisha Kollie · Age 13 · Number Theory</span>
+            </div>
+            <div class="album-slide">
+              <img src="gormah-barning.jpg" alt="Gormah Barning" loading="lazy"
+                   data-src="gormah-barning.jpg" data-title="Gormah Barning" data-sub="Age 12 · Geometry">
+              <span class="album-slide-cap">Gormah Barning · Age 12 · Geometry</span>
+            </div>
+            <div class="album-slide">
+              <img src="roniel-zarkpah.jpg" alt="Roniel Zarkpah" loading="lazy"
+                   data-src="roniel-zarkpah.jpg" data-title="Roniel Zarkpah" data-sub="Age 11 · Number Theory">
+              <span class="album-slide-cap">Roniel Zarkpah · Age 11 · Number Theory</span>
+            </div>
+            <div class="album-slide">
+              <img src="james-gayflor.jpg" alt="James P. Gayflor" loading="lazy"
+                   data-src="james-gayflor.jpg" data-title="James P. Gayflor" data-sub="Age 11 · Algebra & Combinatorics">
+              <span class="album-slide-cap">James P. Gayflor · Age 11 · Algebra & Combinatorics</span>
+            </div>
+          </div>
+          <button class="album-nav prev" aria-label="Previous trainee">&#8249;</button>
+          <button class="album-nav next" aria-label="Next trainee">&#8250;</button>
+          <div class="album-dots"></div>
+        </div>
+        <p class="album-desc">Real students, already building real skills under our Olympiad Training Program.</p>
+        <div class="album-foot"><button class="album-view-btn" data-start="7">View Album &nearr;</button></div>
+      </div>
 
     </div>
 
@@ -560,41 +583,71 @@
     requestAnimationFrame(() => setTimeout(() => fab.classList.add('mmli-in'), 400));
   }
 
-  // ===== Gallery: staggered entrance =====
-  const galleryGrid = document.getElementById('galleryGrid');
-  if (galleryGrid) {
-    const gObserver = new IntersectionObserver((entries) => {
+  // ===== Gallery: album carousels =====
+  const albumsWrap = document.getElementById('galleryAlbums');
+  const allSlideImgs = albumsWrap ? Array.from(albumsWrap.querySelectorAll('.album-slide img')) : [];
+
+  if (albumsWrap) {
+    // Entrance animation per card
+    const cards = Array.from(albumsWrap.querySelectorAll('.album-card'));
+    const cardObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          galleryGrid.classList.add('in-view');
-          gObserver.unobserve(entry.target);
+          entry.target.classList.add('in-view');
+          cardObserver.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.1 });
-    gObserver.observe(galleryGrid);
+    }, { threshold: 0.15 });
+    cards.forEach(c => cardObserver.observe(c));
 
-    // ===== Gallery: filtering =====
-    const items = Array.from(galleryGrid.querySelectorAll('.g-item'));
-    const filterBtns = document.querySelectorAll('.gf-btn');
-    filterBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        filterBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        const filter = btn.dataset.filter;
-        items.forEach(it => {
-          const match = filter === 'all' || it.dataset.group === filter;
-          if (match) {
-            it.style.display = '';
-            requestAnimationFrame(() => it.classList.remove('g-hide'));
-          } else {
-            it.classList.add('g-hide');
-            setTimeout(() => { if (it.classList.contains('g-hide')) it.style.display = 'none'; }, 350);
-          }
+    // Set up each album's own slider
+    document.querySelectorAll('.album-slider').forEach(slider => {
+      const track = slider.querySelector('.album-track');
+      const slides = Array.from(slider.querySelectorAll('.album-slide'));
+      const dotsWrap = slider.querySelector('.album-dots');
+      const prevBtn = slider.querySelector('.album-nav.prev');
+      const nextBtn = slider.querySelector('.album-nav.next');
+      let idx = 0;
+      let timer = null;
+
+      if (slides.length > 1 && dotsWrap) {
+        slides.forEach((_, i) => {
+          const dot = document.createElement('span');
+          dot.className = 'album-dot' + (i === 0 ? ' active' : '');
+          dot.addEventListener('click', () => goTo(i));
+          dotsWrap.appendChild(dot);
         });
-      });
+      }
+
+      function goTo(i) {
+        slides[idx].classList.remove('is-active');
+        idx = (i + slides.length) % slides.length;
+        slides[idx].classList.add('is-active');
+        track.style.transform = `translateX(-${idx * 100}%)`;
+        if (dotsWrap) {
+          Array.from(dotsWrap.children).forEach((d, di) => d.classList.toggle('active', di === idx));
+        }
+      }
+      function play() {
+        if (slides.length < 2) return;
+        timer = setInterval(() => goTo(idx + 1), 4200);
+      }
+      function pause() { if (timer) { clearInterval(timer); timer = null; } }
+
+      if (slides.length > 1) {
+        prevBtn && prevBtn.addEventListener('click', () => { goTo(idx - 1); pause(); play(); });
+        nextBtn && nextBtn.addEventListener('click', () => { goTo(idx + 1); pause(); play(); });
+        slider.addEventListener('mouseenter', pause);
+        slider.addEventListener('mouseleave', play);
+        slider.addEventListener('touchstart', pause, { passive: true });
+        play();
+      } else {
+        if (prevBtn) prevBtn.style.display = 'none';
+        if (nextBtn) nextBtn.style.display = 'none';
+      }
     });
 
-    // ===== Lightbox =====
+    // ===== Lightbox (reads every slide image across all albums) =====
     const lightbox = document.getElementById('mmliLightbox');
     const lbImg = document.getElementById('lbImg');
     const lbCaption = document.getElementById('lbCaption');
@@ -604,8 +657,8 @@
     let currentIndex = 0;
 
     function openLightbox(index) {
-      currentIndex = index;
-      const it = items[currentIndex];
+      currentIndex = (index + allSlideImgs.length) % allSlideImgs.length;
+      const it = allSlideImgs[currentIndex];
       lbImg.src = it.dataset.src;
       lbImg.alt = it.dataset.title;
       lbCaption.innerHTML = `<strong>${it.dataset.title}</strong><small>${it.dataset.sub || ''}</small>`;
@@ -618,30 +671,20 @@
       lightbox.setAttribute('aria-hidden', 'true');
       document.body.style.overflow = '';
     }
-    function showRelative(step) {
-      let next = currentIndex;
-      for (let i = 0; i < items.length; i++) {
-        next = (next + step + items.length) % items.length;
-        if (items[next].style.display !== 'none') break;
-      }
-      openLightbox(next);
-    }
 
-    items.forEach((it, idx) => {
-      it.addEventListener('click', () => openLightbox(idx));
-      it.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLightbox(idx); }
-      });
+    allSlideImgs.forEach((img, i) => img.addEventListener('click', () => openLightbox(i)));
+    document.querySelectorAll('.album-view-btn').forEach(btn => {
+      btn.addEventListener('click', () => openLightbox(parseInt(btn.dataset.start, 10) || 0));
     });
     lbClose.addEventListener('click', closeLightbox);
-    lbPrev.addEventListener('click', () => showRelative(-1));
-    lbNext.addEventListener('click', () => showRelative(1));
+    lbPrev.addEventListener('click', () => openLightbox(currentIndex - 1));
+    lbNext.addEventListener('click', () => openLightbox(currentIndex + 1));
     lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
     document.addEventListener('keydown', (e) => {
       if (!lightbox.classList.contains('open')) return;
       if (e.key === 'Escape') closeLightbox();
-      if (e.key === 'ArrowLeft') showRelative(-1);
-      if (e.key === 'ArrowRight') showRelative(1);
+      if (e.key === 'ArrowLeft') openLightbox(currentIndex - 1);
+      if (e.key === 'ArrowRight') openLightbox(currentIndex + 1);
     });
   }
 </script>
