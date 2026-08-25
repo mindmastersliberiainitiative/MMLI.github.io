@@ -87,6 +87,180 @@
     @media (prefers-reduced-motion: reduce) {
       #mmli-fab, #mmli-fab.mmli-in { animation: none !important; }
     }
+
+    /* ===== Highlights & Moments — grouped animated gallery ===== */
+    .gallery-live-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: rgba(8, 33, 61, 0.06);
+      color: #08213D;
+      font-weight: 700;
+      font-size: 0.72rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .gallery-live-badge .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #ffc400;
+      box-shadow: 0 0 0 0 rgba(255, 196, 0, 0.6);
+      animation: mmli-pulse 1.8s ease-out infinite;
+    }
+    .gallery-filters {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 32px;
+    }
+    .gf-btn {
+      border: 1px solid rgba(8, 33, 61, 0.18);
+      background: #fff;
+      color: #08213D;
+      padding: 8px 18px;
+      border-radius: 999px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+    .gf-btn:hover { border-color: #08213D; transform: translateY(-2px); }
+    .gf-btn.active {
+      background: #08213D;
+      color: #ffd452;
+      border-color: #08213D;
+      box-shadow: 0 6px 16px rgba(8, 33, 61, 0.25);
+    }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      grid-auto-rows: 210px;
+      grid-auto-flow: dense;
+      gap: 16px;
+    }
+    .g-item {
+      position: relative;
+      overflow: hidden;
+      border-radius: 16px;
+      cursor: pointer;
+      box-shadow: 0 6px 18px rgba(8, 33, 61, 0.12);
+      opacity: 0;
+      transform: translateY(24px) scale(0.97);
+      transition: opacity 0.55s ease, transform 0.55s ease, box-shadow 0.3s ease;
+    }
+    .gallery-grid.in-view .g-item { opacity: 1; transform: translateY(0) scale(1); }
+    .gallery-grid.in-view .g-item:nth-child(1)  { transition-delay: 0.02s; }
+    .gallery-grid.in-view .g-item:nth-child(2)  { transition-delay: 0.08s; }
+    .gallery-grid.in-view .g-item:nth-child(3)  { transition-delay: 0.14s; }
+    .gallery-grid.in-view .g-item:nth-child(4)  { transition-delay: 0.20s; }
+    .gallery-grid.in-view .g-item:nth-child(5)  { transition-delay: 0.26s; }
+    .gallery-grid.in-view .g-item:nth-child(6)  { transition-delay: 0.32s; }
+    .gallery-grid.in-view .g-item:nth-child(7)  { transition-delay: 0.38s; }
+    .gallery-grid.in-view .g-item:nth-child(8)  { transition-delay: 0.44s; }
+    .gallery-grid.in-view .g-item:nth-child(9)  { transition-delay: 0.50s; }
+    .gallery-grid.in-view .g-item:nth-child(10) { transition-delay: 0.56s; }
+    .gallery-grid.in-view .g-item:nth-child(11) { transition-delay: 0.62s; }
+    .g-item.g-hide { opacity: 0 !important; transform: translateY(10px) scale(0.94) !important; pointer-events: none; }
+    .g-item.g-span-2 { grid-column: span 2; }
+    .g-item.g-tall   { grid-row: span 2; }
+    .g-item:hover { box-shadow: 0 14px 30px rgba(8, 33, 61, 0.28); }
+    .g-item img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.7s cubic-bezier(.2,.8,.2,1);
+    }
+    .g-item:hover img { transform: scale(1.09); }
+    .g-item:focus-visible { outline: 3px solid #ffc400; outline-offset: 2px; }
+    .g-tag {
+      position: absolute;
+      top: 10px; left: 10px;
+      background: rgba(8, 33, 61, 0.75);
+      color: #ffd452;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 999px;
+      backdrop-filter: blur(2px);
+    }
+    .g-caption {
+      position: absolute;
+      left: 0; right: 0; bottom: 0;
+      padding: 30px 14px 12px;
+      background: linear-gradient(to top, rgba(8,33,61,0.92) 10%, rgba(8,33,61,0) 100%);
+      color: #fff;
+      transform: translateY(8px);
+      transition: transform 0.35s ease;
+    }
+    .g-caption strong { display: block; font-size: 0.92rem; line-height: 1.25; }
+    .g-caption span.g-sub {
+      display: block;
+      font-size: 0.76rem;
+      color: #ffd452;
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease, opacity 0.3s ease;
+    }
+    .g-item:hover .g-caption span.g-sub,
+    .g-item:focus-visible .g-caption span.g-sub { max-height: 20px; opacity: 1; }
+    .g-item:hover .g-caption { transform: translateY(0); }
+    .gallery-cta { text-align: center; margin-top: 34px; }
+
+    /* Lightbox */
+    .mmli-lightbox {
+      position: fixed; inset: 0; z-index: 2000;
+      background: rgba(4, 14, 26, 0.92);
+      backdrop-filter: blur(6px);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; visibility: hidden;
+      transition: opacity 0.3s ease;
+    }
+    .mmli-lightbox.open { opacity: 1; visibility: visible; }
+    .lb-content { max-width: min(90vw, 880px); text-align: center; }
+    .lb-content img {
+      max-width: 100%; max-height: 74vh;
+      border-radius: 10px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      transform: scale(0.94);
+      opacity: 0;
+      transition: transform 0.35s ease, opacity 0.35s ease;
+    }
+    .mmli-lightbox.open .lb-content img { transform: scale(1); opacity: 1; }
+    .lb-caption { color: #ffd452; margin-top: 16px; font-weight: 600; }
+    .lb-caption small { display: block; color: #cfe0f5; font-weight: 400; margin-top: 4px; }
+    .lb-close, .lb-nav {
+      position: absolute;
+      background: rgba(255,255,255,0.08);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 50%;
+      width: 44px; height: 44px;
+      font-size: 1.4rem;
+      line-height: 1;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+    .lb-close:hover, .lb-nav:hover { background: rgba(255,196,0,0.85); color: #08213D; transform: translateY(-1px); }
+    .lb-close { top: 20px; right: 20px; }
+    .lb-prev { left: 20px; top: 50%; transform: translateY(-50%); }
+    .lb-next { right: 20px; top: 50%; transform: translateY(-50%); }
+    @media (max-width: 576px) {
+      .lb-prev, .lb-next { width: 38px; height: 38px; font-size: 1.1rem; }
+      .lb-prev { left: 8px; } .lb-next { right: 8px; }
+      .gallery-grid { grid-auto-rows: 170px; }
+      .g-item.g-span-2 { grid-column: span 2; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .g-item, .g-item img, .g-caption, .mmli-lightbox, .lb-content img { transition: none !important; }
+    }
   </style>
 </head>
 <body>
@@ -198,128 +372,131 @@
   </div>
 </section>
 
-<!-- IMAGE GALLERY SECTION -->
-<section class="reveal py-5 bg-light">
+<!-- HIGHLIGHTS & MOMENTS — UNIFIED GALLERY -->
+<section class="reveal py-5 bg-light" id="gallery">
   <div class="container">
-    <h2 class="text-center mb-5">Highlights & Moments</h2>
-    <div class="row g-4">
+    <div class="text-center mb-2">
+      <span class="gallery-live-badge"><span class="dot"></span> Live Gallery</span>
+    </div>
+    <h2 class="text-center mt-3 mb-2">Highlights & Moments</h2>
+    <p class="text-center text-muted mb-4">Flyers, delegations, and the trainees behind them — tap a group to explore, tap a photo to view it full-size.</p>
 
-      <div class="col-md-6">
-        <div class="card shadow-sm h-100">
-          <img src="back-to-school-flyer.jpg" class="card-img-top" alt="Back-to-School Academic Quiz Challenge 2026">
-          <div class="card-body text-center">
-            <p class="mb-0 fw-bold">Back-to-School Quiz Challenge 2026</p>
-          </div>
-        </div>
-      </div>
+    <div class="gallery-filters">
+      <button class="gf-btn active" data-filter="all">All</button>
+      <button class="gf-btn" data-filter="quiz">Quiz Challenge</button>
+      <button class="gf-btn" data-filter="training">Olympiad Training</button>
+      <button class="gf-btn" data-filter="pamo">PAMO 2026</button>
+      <button class="gf-btn" data-filter="trainees">Trainees</button>
+    </div>
 
-      <div class="col-md-6">
-        <div class="card shadow-sm h-100">
-          <img src="olympiad-training-flyer.jpg" class="card-img-top" alt="Olympiad Training Program">
-          <div class="card-body text-center">
-            <p class="mb-0 fw-bold">Olympiad Training Program</p>
-          </div>
-        </div>
-      </div>
+    <div class="gallery-grid" id="galleryGrid">
+
+      <figure class="g-item g-span-2" data-group="quiz" tabindex="0" role="button"
+              data-src="back-to-school-flyer.jpg" data-tag="Quiz Challenge"
+              data-title="Back-to-School Quiz Challenge 2026" data-sub="16 Junior High & 16 Senior High schools competing">
+        <img src="back-to-school-flyer.jpg" alt="Back-to-School Academic Quiz Challenge 2026" loading="lazy">
+        <span class="g-tag">Quiz Challenge</span>
+        <figcaption class="g-caption"><strong>Back-to-School Quiz Challenge 2026</strong><span class="g-sub">Registration open · September 2026</span></figcaption>
+      </figure>
+
+      <figure class="g-item" data-group="training" tabindex="0" role="button"
+              data-src="olympiad-training-flyer.jpg" data-tag="Olympiad Training"
+              data-title="Olympiad Training Program" data-sub="4 branches of the training curriculum">
+        <img src="olympiad-training-flyer.jpg" alt="Olympiad Training Program" loading="lazy">
+        <span class="g-tag">Training</span>
+        <figcaption class="g-caption"><strong>Olympiad Training Program</strong><span class="g-sub">4 branches of curriculum</span></figcaption>
+      </figure>
+
+      <figure class="g-item g-tall" data-group="pamo" tabindex="0" role="button"
+              data-src="pamo-delegation.jpg" data-tag="PAMO 2026"
+              data-title="Liberian delegation at PAMO 2026" data-sub="Yamoussoukro, Côte d'Ivoire">
+        <img src="pamo-delegation.jpg" alt="Liberian delegation at PAMO 2026" loading="lazy">
+        <span class="g-tag">PAMO 2026</span>
+        <figcaption class="g-caption"><strong>The Liberian Delegation</strong><span class="g-sub">Yamoussoukro, Côte d'Ivoire</span></figcaption>
+      </figure>
+
+      <figure class="g-item" data-group="pamo" tabindex="0" role="button"
+              data-src="pamo-library.jpg" data-tag="PAMO 2026"
+              data-title="Liberia and Sierra Leone teams" data-sub="Librairie de la Fondation">
+        <img src="pamo-library.jpg" alt="Liberia and Sierra Leone teams at Librairie de la Fondation" loading="lazy">
+        <span class="g-tag">PAMO 2026</span>
+        <figcaption class="g-caption"><strong>Liberia & Sierra Leone Teams</strong><span class="g-sub">Librairie de la Fondation</span></figcaption>
+      </figure>
+
+      <figure class="g-item" data-group="pamo" tabindex="0" role="button"
+              data-src="pamo-stage.jpg" data-tag="PAMO 2026"
+              data-title="Liberian team on stage" data-sub="PAMO 2026 opening ceremony">
+        <img src="pamo-stage.jpg" alt="Liberian team on stage at PAMO 2026" loading="lazy">
+        <span class="g-tag">PAMO 2026</span>
+        <figcaption class="g-caption"><strong>On Stage</strong><span class="g-sub">Opening ceremony</span></figcaption>
+      </figure>
+
+      <figure class="g-item" data-group="pamo" tabindex="0" role="button"
+              data-src="pamo-banner.jpg" data-tag="PAMO 2026"
+              data-title="Team member beside the PAMO 2026 banner" data-sub="33rd Panafrican Mathematical Olympiad">
+        <img src="pamo-banner.jpg" alt="Team member beside the PAMO 2026 banner" loading="lazy">
+        <span class="g-tag">PAMO 2026</span>
+        <figcaption class="g-caption"><strong>Flying the Flag</strong><span class="g-sub">33rd Panafrican Math Olympiad</span></figcaption>
+      </figure>
+
+      <figure class="g-item g-span-2" data-group="pamo" tabindex="0" role="button"
+              data-src="pamo-departure.jpg" data-tag="PAMO 2026"
+              data-title="Liberian team departure" data-sub="Headed home with the flag">
+        <img src="pamo-departure.jpg" alt="Liberian team departure with flag" loading="lazy">
+        <span class="g-tag">PAMO 2026</span>
+        <figcaption class="g-caption"><strong>Heading Home</strong><span class="g-sub">Departure with the flag</span></figcaption>
+      </figure>
+
+      <figure class="g-item" data-group="trainees" tabindex="0" role="button"
+              data-src="alisha-kollie.jpg" data-tag="Trainee"
+              data-title="Alisha Kollie" data-sub="Age 13 · Number Theory">
+        <img src="alisha-kollie.jpg" alt="Alisha Kollie" loading="lazy">
+        <span class="g-tag">Trainee</span>
+        <figcaption class="g-caption"><strong>Alisha Kollie</strong><span class="g-sub">Age 13 · Number Theory</span></figcaption>
+      </figure>
+
+      <figure class="g-item" data-group="trainees" tabindex="0" role="button"
+              data-src="gormah-barning.jpg" data-tag="Trainee"
+              data-title="Gormah Barning" data-sub="Age 12 · Geometry">
+        <img src="gormah-barning.jpg" alt="Gormah Barning" loading="lazy">
+        <span class="g-tag">Trainee</span>
+        <figcaption class="g-caption"><strong>Gormah Barning</strong><span class="g-sub">Age 12 · Geometry</span></figcaption>
+      </figure>
+
+      <figure class="g-item" data-group="trainees" tabindex="0" role="button"
+              data-src="roniel-zarkpah.jpg" data-tag="Trainee"
+              data-title="Roniel Zarkpah" data-sub="Age 11 · Number Theory">
+        <img src="roniel-zarkpah.jpg" alt="Roniel Zarkpah" loading="lazy">
+        <span class="g-tag">Trainee</span>
+        <figcaption class="g-caption"><strong>Roniel Zarkpah</strong><span class="g-sub">Age 11 · Number Theory</span></figcaption>
+      </figure>
+
+      <figure class="g-item" data-group="trainees" tabindex="0" role="button"
+              data-src="james-gayflor.jpg" data-tag="Trainee"
+              data-title="James P. Gayflor" data-sub="Age 11 · Algebra & Combinatorics">
+        <img src="james-gayflor.jpg" alt="James P. Gayflor" loading="lazy">
+        <span class="g-tag">Trainee</span>
+        <figcaption class="g-caption"><strong>James P. Gayflor</strong><span class="g-sub">Age 11 · Algebra & Combinatorics</span></figcaption>
+      </figure>
 
     </div>
-  </div>
-</section>
 
-<!-- PAMO 2026 SECTION -->
-<section class="reveal py-5 bg-white">
-  <div class="container">
-    <h2 class="text-center mb-2">Liberia at the 33rd Panafrican Mathematical Olympiad (PAMO) 2026</h2>
-    <p class="text-center text-muted mb-5">Yamoussoukro, Côte d'Ivoire &middot; June 26 &ndash; July 4, 2026</p>
-    <div class="row g-4">
-
-      <div class="col-md-4">
-        <div class="card shadow-sm h-100">
-          <img src="pamo-delegation.jpg" class="card-img-top" alt="Liberian delegation at PAMO 2026">
-        </div>
-      </div>
-
-      <div class="col-md-4">
-        <div class="card shadow-sm h-100">
-          <img src="pamo-library.jpg" class="card-img-top" alt="Liberia and Sierra Leone teams at Librairie de la Fondation">
-        </div>
-      </div>
-
-      <div class="col-md-4">
-        <div class="card shadow-sm h-100">
-          <img src="pamo-stage.jpg" class="card-img-top" alt="Liberian team on stage at PAMO 2026">
-        </div>
-      </div>
-
-      <div class="col-md-4">
-        <div class="card shadow-sm h-100">
-          <img src="pamo-banner.jpg" class="card-img-top" alt="Team member beside the PAMO 2026 banner">
-        </div>
-      </div>
-
-      <div class="col-md-8">
-        <div class="card shadow-sm h-100">
-          <img src="pamo-departure.jpg" class="card-img-top" alt="Liberian team departure with flag">
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- STUDENT SPOTLIGHT TEASER -->
-<section class="reveal py-5 bg-white">
-  <div class="container">
-    <h2 class="text-center mb-2">Meet Our Olympiad Trainees</h2>
-    <p class="text-center text-muted mb-5">Real students, already building real skills under our Olympiad Training Program.</p>
-    <div class="row g-4">
-
-      <div class="col-md-3 col-6">
-        <div class="card h-100 border-0 shadow-sm">
-          <img src="alisha-kollie.jpg" class="card-img-top" alt="Alisha Kollie">
-          <div class="card-body">
-            <h6 class="card-title fw-bold mb-1">Alisha Kollie</h6>
-            <p class="text-muted small mb-0">Age 13 &middot; Number Theory</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-3 col-6">
-        <div class="card h-100 border-0 shadow-sm">
-          <img src="gormah-barning.jpg" class="card-img-top" alt="Gormah Barning">
-          <div class="card-body">
-            <h6 class="card-title fw-bold mb-1">Gormah Barning</h6>
-            <p class="text-muted small mb-0">Age 12 &middot; Geometry</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-3 col-6">
-        <div class="card h-100 border-0 shadow-sm">
-          <img src="roniel-zarkpah.jpg" class="card-img-top" alt="Roniel Zarkpah">
-          <div class="card-body">
-            <h6 class="card-title fw-bold mb-1">Roniel Zarkpah</h6>
-            <p class="text-muted small mb-0">Age 11 &middot; Number Theory</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-3 col-6">
-        <div class="card h-100 border-0 shadow-sm">
-          <img src="james-gayflor.jpg" class="card-img-top" alt="James P. Gayflor">
-          <div class="card-body">
-            <h6 class="card-title fw-bold mb-1">James P. Gayflor</h6>
-            <p class="text-muted small mb-0">Age 11 &middot; Algebra & Combinatorics</p>
-          </div>
-        </div>
-      </div>
-
-    </div>
-    <div class="text-center mt-4">
+    <div class="gallery-cta">
       <a href="announcement.html" class="btn btn-outline-primary">See All Trainee Spotlights</a>
     </div>
   </div>
 </section>
+
+<!-- LIGHTBOX -->
+<div class="mmli-lightbox" id="mmliLightbox" aria-hidden="true">
+  <button class="lb-close" id="lbClose" aria-label="Close">&times;</button>
+  <button class="lb-nav lb-prev" id="lbPrev" aria-label="Previous photo">&#8249;</button>
+  <div class="lb-content">
+    <img id="lbImg" src="" alt="">
+    <div class="lb-caption" id="lbCaption"></div>
+  </div>
+  <button class="lb-nav lb-next" id="lbNext" aria-label="Next photo">&#8250;</button>
+</div>
 
 <!-- ABOUT PREVIEW -->
 <section class="reveal py-5 bg-light">
@@ -381,6 +558,91 @@
   const fab = document.getElementById('mmli-fab');
   if (fab) {
     requestAnimationFrame(() => setTimeout(() => fab.classList.add('mmli-in'), 400));
+  }
+
+  // ===== Gallery: staggered entrance =====
+  const galleryGrid = document.getElementById('galleryGrid');
+  if (galleryGrid) {
+    const gObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          galleryGrid.classList.add('in-view');
+          gObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    gObserver.observe(galleryGrid);
+
+    // ===== Gallery: filtering =====
+    const items = Array.from(galleryGrid.querySelectorAll('.g-item'));
+    const filterBtns = document.querySelectorAll('.gf-btn');
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const filter = btn.dataset.filter;
+        items.forEach(it => {
+          const match = filter === 'all' || it.dataset.group === filter;
+          if (match) {
+            it.style.display = '';
+            requestAnimationFrame(() => it.classList.remove('g-hide'));
+          } else {
+            it.classList.add('g-hide');
+            setTimeout(() => { if (it.classList.contains('g-hide')) it.style.display = 'none'; }, 350);
+          }
+        });
+      });
+    });
+
+    // ===== Lightbox =====
+    const lightbox = document.getElementById('mmliLightbox');
+    const lbImg = document.getElementById('lbImg');
+    const lbCaption = document.getElementById('lbCaption');
+    const lbClose = document.getElementById('lbClose');
+    const lbPrev = document.getElementById('lbPrev');
+    const lbNext = document.getElementById('lbNext');
+    let currentIndex = 0;
+
+    function openLightbox(index) {
+      currentIndex = index;
+      const it = items[currentIndex];
+      lbImg.src = it.dataset.src;
+      lbImg.alt = it.dataset.title;
+      lbCaption.innerHTML = `<strong>${it.dataset.title}</strong><small>${it.dataset.sub || ''}</small>`;
+      lightbox.classList.add('open');
+      lightbox.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox() {
+      lightbox.classList.remove('open');
+      lightbox.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+    function showRelative(step) {
+      let next = currentIndex;
+      for (let i = 0; i < items.length; i++) {
+        next = (next + step + items.length) % items.length;
+        if (items[next].style.display !== 'none') break;
+      }
+      openLightbox(next);
+    }
+
+    items.forEach((it, idx) => {
+      it.addEventListener('click', () => openLightbox(idx));
+      it.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLightbox(idx); }
+      });
+    });
+    lbClose.addEventListener('click', closeLightbox);
+    lbPrev.addEventListener('click', () => showRelative(-1));
+    lbNext.addEventListener('click', () => showRelative(1));
+    lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
+    document.addEventListener('keydown', (e) => {
+      if (!lightbox.classList.contains('open')) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowLeft') showRelative(-1);
+      if (e.key === 'ArrowRight') showRelative(1);
+    });
   }
 </script>
 
