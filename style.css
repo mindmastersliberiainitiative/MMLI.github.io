@@ -387,6 +387,33 @@ section.stats-orbit .orbit-field span {
 
 section.stats-orbit .container { position: relative; z-index: 1; }
 
+/* ---------- Cascading "drop into place" entrance (used by cards + icons) ---------- */
+@keyframes mmliCascadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-34px) scale(0.88);
+    filter: blur(5px);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(4px) scale(1.015);
+    filter: blur(0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+.cascade-item {
+  opacity: 0;
+}
+
+.cascade-item.cascade-in {
+  animation: mmliCascadeIn 0.7s cubic-bezier(.22,.9,.32,1.1) forwards;
+}
+
 /* Stat number count-up + ring pulse */
 .stat-number {
   display: inline-block;
@@ -414,7 +441,13 @@ section.stats-orbit .container { position: relative; z-index: 1; }
   animation: mmliRingPulse 2.8s ease-out infinite;
 }
 
+.stat-ring.cascade-in::after {
+  animation: mmliRingPulse 2.8s ease-out 0.7s infinite;
+}
+
 .stat-ring .fs-2 { animation: mmliFloat 3s ease-in-out infinite; }
+
+.stat-ring.cascade-in .fs-2 { animation: mmliFloat 3s ease-in-out 0.7s infinite; }
 
 @keyframes mmliRingPulse {
   0%   { transform: scale(0.85); opacity: 0.9; }
@@ -426,13 +459,7 @@ section.stats-orbit .container { position: relative; z-index: 1; }
 .welcome-card {
   position: relative;
   opacity: 0;
-  transform: translateY(40px) scale(0.94);
-  filter: blur(6px);
-  transition: opacity 0.7s cubic-bezier(.19,1,.22,1),
-              transform 0.7s cubic-bezier(.19,1,.22,1),
-              filter 0.7s ease,
-              box-shadow 0.35s ease,
-              border-color 0.35s ease;
+  transition: box-shadow 0.35s ease, border-color 0.35s ease, transform 0.35s ease;
   border-radius: 18px;
   padding: 30px 24px 26px;
   height: 100%;
@@ -443,10 +470,8 @@ section.stats-orbit .container { position: relative; z-index: 1; }
   isolation: isolate;
 }
 
-.welcome-card.in-view {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-  filter: blur(0);
+.welcome-card.cascade-in {
+  animation: mmliCascadeIn 0.7s cubic-bezier(.22,.9,.32,1.1) forwards;
 }
 
 /* Top accent bar that sweeps in on hover */
@@ -560,6 +585,8 @@ section.flagship-shimmer::after {
   section.stats-orbit .orbit-field span,
   .stat-ring::after,
   .stat-ring .fs-2,
+  .cascade-item,
+  .cascade-item.cascade-in,
   .welcome-card,
   .welcome-card::before,
   .welcome-card::after,
