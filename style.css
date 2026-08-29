@@ -422,39 +422,115 @@ section.stats-orbit .container { position: relative; z-index: 1; }
   100% { transform: scale(1.25); opacity: 0; }
 }
 
-/* ---------- Welcome section cards: staggered rise + hover lift ---------- */
+/* ---------- Welcome section cards: real card surface + rich motion ---------- */
 .welcome-card {
+  position: relative;
   opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 0.6s ease, transform 0.6s cubic-bezier(.19,1,.22,1), box-shadow 0.3s ease;
-  border-radius: 14px;
-  padding: 22px 16px;
+  transform: translateY(40px) scale(0.94);
+  filter: blur(6px);
+  transition: opacity 0.7s cubic-bezier(.19,1,.22,1),
+              transform 0.7s cubic-bezier(.19,1,.22,1),
+              filter 0.7s ease,
+              box-shadow 0.35s ease,
+              border-color 0.35s ease;
+  border-radius: 18px;
+  padding: 30px 24px 26px;
   height: 100%;
+  background: #fff;
+  border: 1px solid rgba(15, 42, 82, 0.07);
+  box-shadow: 0 8px 24px rgba(15, 42, 82, 0.06);
+  overflow: hidden;
+  isolation: isolate;
 }
 
-.welcome-card.in-view { opacity: 1; transform: translateY(0); }
+.welcome-card.in-view {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0);
+}
+
+/* Top accent bar that sweeps in on hover */
+.welcome-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--mmli-gold), var(--mmli-navy));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.45s cubic-bezier(.19,1,.22,1);
+}
+
+.welcome-card:hover::before { transform: scaleX(1); }
+
+/* Soft glow that follows in on hover */
+.welcome-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(circle at 50% 0%, rgba(242, 169, 0, 0.10), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.welcome-card:hover::after { opacity: 1; }
 
 .welcome-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 16px 32px rgba(15, 42, 82, 0.12);
+  transform: translateY(-10px) scale(1.015);
+  box-shadow: 0 20px 40px rgba(15, 42, 82, 0.16);
+  border-color: rgba(242, 169, 0, 0.35);
+}
+
+.welcome-card h5 {
+  font-weight: 700;
+  color: var(--mmli-navy-dark);
+  margin-bottom: 10px;
+}
+
+.welcome-card p {
+  color: #5a6472;
+  margin-bottom: 0;
 }
 
 .welcome-card .welcome-icon {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
+  width: 52px;
+  height: 52px;
   border-radius: 50%;
   background: rgba(242, 169, 0, 0.12);
   color: var(--mmli-gold-dark);
-  margin-bottom: 10px;
-  transition: transform 0.35s ease, background 0.35s ease;
+  margin-bottom: 14px;
+  transition: transform 0.4s cubic-bezier(.34,1.56,.64,1), background 0.35s ease, box-shadow 0.35s ease;
+}
+
+.welcome-card .welcome-icon::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 1px solid rgba(242, 169, 0, 0.4);
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
 .welcome-card:hover .welcome-icon {
-  transform: scale(1.12) rotate(-6deg);
+  transform: scale(1.14) rotate(-8deg);
   background: rgba(242, 169, 0, 0.22);
+  box-shadow: 0 6px 16px rgba(242, 169, 0, 0.25);
+}
+
+.welcome-card:hover .welcome-icon::after {
+  opacity: 1;
+  transform: scale(1);
+}
+
+@media (max-width: 767px) {
+  .welcome-card { padding: 24px 20px; }
 }
 
 /* ---------- Flagship banner: subtle shimmer border ---------- */
@@ -485,7 +561,10 @@ section.flagship-shimmer::after {
   .stat-ring::after,
   .stat-ring .fs-2,
   .welcome-card,
+  .welcome-card::before,
+  .welcome-card::after,
   .welcome-card .welcome-icon,
+  .welcome-card .welcome-icon::after,
   section.flagship-shimmer::after {
     animation: none !important;
     transition: none !important;
