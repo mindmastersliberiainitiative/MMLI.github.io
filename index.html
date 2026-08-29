@@ -117,6 +117,7 @@
       gap: 30px;
       max-width: 760px;
       margin: 0 auto;
+      perspective: 1600px;
     }
     .album-card {
       background: #fff;
@@ -124,15 +125,28 @@
       padding: 22px 22px 26px;
       box-shadow: 0 10px 34px rgba(8, 33, 61, 0.10);
       opacity: 0;
-      transform: translateY(36px);
-      transition: opacity 0.65s ease, transform 0.65s cubic-bezier(.19,1,.22,1), box-shadow 0.3s ease;
+      transform-style: preserve-3d;
+      transform-origin: 50% 100%;
+      transform: perspective(1600px) rotateX(28deg) translateY(60px) scale(0.93);
+      transition: opacity 0.75s ease, transform 0.85s cubic-bezier(.19,1,.22,1), box-shadow 0.3s ease;
+      will-change: transform;
     }
-    .album-card.in-view { opacity: 1; transform: translateY(0); }
+    .album-card.in-view {
+      opacity: 1;
+      transform: perspective(1600px) rotateX(0deg) translateY(0) scale(1);
+    }
     .gallery-albums .album-card:nth-child(1) { transition-delay: 0.05s; }
     .gallery-albums .album-card:nth-child(2) { transition-delay: 0.15s; }
     .gallery-albums .album-card:nth-child(3) { transition-delay: 0.25s; }
     .gallery-albums .album-card:nth-child(4) { transition-delay: 0.35s; }
     .album-card:hover { box-shadow: 0 18px 44px rgba(8, 33, 61, 0.18); }
+    /* Cursor-follow 3D tilt on the photo panel, in-view cards only */
+    .album-card.in-view .album-slider {
+      transform: perspective(1000px) rotateX(var(--tilt-y, 0deg)) rotateY(var(--tilt-x, 0deg)) scale(var(--tilt-s, 1));
+      transition: transform 0.45s cubic-bezier(.22,1,.36,1);
+      will-change: transform;
+    }
+    .album-card.in-view .album-slider.is-tilting { transition: transform 0.08s linear; }
     .album-title {
       font-weight: 800;
       color: #08213D;
@@ -721,6 +735,30 @@
       });
     }, { threshold: 0.15 });
     cards.forEach(c => cardObserver.observe(c));
+
+    // Cursor-follow 3D tilt on each album's photo panel (mirrors the
+    // perspective-tilt mockup animation)
+    const MAX_TILT = 9; // degrees
+    albumsWrap.querySelectorAll('.album-slider').forEach(slider => {
+      slider.addEventListener('pointermove', (e) => {
+        if (e.pointerType === 'touch') return;
+        const rect = slider.getBoundingClientRect();
+        const px = (e.clientX - rect.left) / rect.width;   // 0..1
+        const py = (e.clientY - rect.top) / rect.height;   // 0..1
+        const tiltX = (px - 0.5) * 2 * MAX_TILT;   // left/right -> rotateY
+        const tiltY = (0.5 - py) * 2 * MAX_TILT;   // up/down -> rotateX
+        slider.classList.add('is-tilting');
+        slider.style.setProperty('--tilt-x', tiltX.toFixed(2) + 'deg');
+        slider.style.setProperty('--tilt-y', tiltY.toFixed(2) + 'deg');
+        slider.style.setProperty('--tilt-s', '1.02');
+      });
+      slider.addEventListener('pointerleave', () => {
+        slider.classList.remove('is-tilting');
+        slider.style.setProperty('--tilt-x', '0deg');
+        slider.style.setProperty('--tilt-y', '0deg');
+        slider.style.setProperty('--tilt-s', '1');
+      });
+    });
 
     // Set up each album's own slider
     document.querySelectorAll('.album-slider').forEach(slider => {
