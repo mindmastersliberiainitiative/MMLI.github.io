@@ -1,0 +1,612 @@
+/* ==========================================================================
+   Mind Masters Liberia Initiative — Brand Stylesheet
+   Navy + Gold, drawn from the MMLI logo
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600&display=swap');
+
+:root {
+  --mmli-navy: #0f2a52;
+  --mmli-navy-dark: #0a1d3a;
+  --mmli-gold: #f2a900;
+  --mmli-gold-dark: #d99400;
+  --mmli-green: #2f7d4f;
+  --mmli-cream: #f8f7f3;
+  --mmli-text: #1c1c1c;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: var(--mmli-text);
+  scroll-behavior: smooth;
+}
+
+h1, h2, h3, h4, h5, h6,
+.navbar-brand {
+  font-family: 'Poppins', sans-serif;
+  letter-spacing: -0.01em;
+}
+
+/* ---------- Navbar ---------- */
+.navbar {
+  background-color: var(--mmli-navy-dark) !important;
+  transition: box-shadow 0.3s ease, padding 0.3s ease;
+}
+
+.navbar.scrolled {
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+
+.navbar-nav .nav-link {
+  position: relative;
+  transition: color 0.2s ease;
+}
+
+.navbar-nav .nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  background: var(--mmli-gold);
+  transition: width 0.25s ease;
+}
+
+.navbar-nav .nav-link:hover::after,
+.navbar-nav .nav-link.active::after {
+  width: 100%;
+}
+
+.navbar-nav .nav-link.active {
+  color: var(--mmli-gold) !important;
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  border-radius: 6px;
+  font-weight: 600;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
+}
+
+.btn-primary {
+  background-color: var(--mmli-navy);
+  border-color: var(--mmli-navy);
+}
+
+.btn-primary:hover {
+  background-color: var(--mmli-navy-dark);
+  border-color: var(--mmli-navy-dark);
+}
+
+.btn-warning {
+  background-color: var(--mmli-gold);
+  border-color: var(--mmli-gold);
+  color: var(--mmli-navy-dark);
+}
+
+.btn-warning:hover {
+  background-color: var(--mmli-gold-dark);
+  border-color: var(--mmli-gold-dark);
+  color: var(--mmli-navy-dark);
+}
+
+.btn-outline-primary {
+  color: var(--mmli-navy);
+  border-color: var(--mmli-navy);
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--mmli-navy);
+  border-color: var(--mmli-navy);
+}
+
+/* ---------- Cards ---------- */
+.card {
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 14px 28px rgba(15, 42, 82, 0.15) !important;
+}
+
+.card-img-top {
+  transition: transform 0.4s ease;
+}
+
+.card:hover .card-img-top {
+  transform: scale(1.04);
+}
+
+/* ---------- Section backgrounds ---------- */
+.bg-primary {
+  background-color: var(--mmli-navy) !important;
+}
+
+.bg-dark {
+  background-color: var(--mmli-navy-dark) !important;
+}
+
+/* ---------- Scroll-reveal animation ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger children of a revealed row (cards etc.) */
+.reveal .col-md-3.reveal-item,
+.reveal .col-md-4.reveal-item,
+.reveal .col-md-6.reveal-item,
+.reveal .col-6.reveal-item {
+  transition-delay: calc(var(--reveal-index, 0) * 0.08s);
+}
+
+/* ---------- Badges ---------- */
+.badge {
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+/* Pulsing "New" badge */
+.badge.bg-primary,
+.badge.bg-warning {
+  animation: mmliPulse 2.2s ease-in-out infinite;
+}
+
+@keyframes mmliPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(242, 169, 0, 0.5); }
+  50% { box-shadow: 0 0 0 6px rgba(242, 169, 0, 0); }
+}
+
+/* ---------- Hero entrance animation (plays on page load, no scroll needed) ---------- */
+@keyframes mmliFadeInDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes mmliFadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+section.bg-primary h1,
+section.bg-dark h1 {
+  animation: mmliFadeInDown 0.7s ease both;
+}
+
+section.bg-primary p.lead,
+section.bg-dark p.lead {
+  animation: mmliFadeInUp 0.7s ease 0.15s both;
+}
+
+section.bg-primary .btn,
+section.bg-dark .btn {
+  animation: mmliFadeInUp 0.7s ease 0.3s both;
+}
+
+/* ---------- Floating stat icons ---------- */
+@keyframes mmliFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.fs-2 {
+  display: inline-block;
+  animation: mmliFloat 3s ease-in-out infinite;
+}
+
+/* Stagger the float slightly per column so they don't move in lockstep */
+.row .col-6:nth-child(2) .fs-2,
+.row .col-md-3:nth-child(2) .fs-2 { animation-delay: 0.3s; }
+.row .col-6:nth-child(3) .fs-2,
+.row .col-md-3:nth-child(3) .fs-2 { animation-delay: 0.6s; }
+.row .col-6:nth-child(4) .fs-2,
+.row .col-md-3:nth-child(4) .fs-2 { animation-delay: 0.9s; }
+
+/* ---------- Icon-grid card icons (emoji) bounce on hover ---------- */
+.card .fs-1 {
+  display: inline-block;
+  transition: transform 0.35s ease;
+}
+
+.card:hover .fs-1 {
+  transform: scale(1.2) rotate(-6deg);
+}
+
+/* ---------- Button shine sweep on hover ---------- */
+.btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+  transform: skewX(-20deg);
+  transition: left 0.6s ease;
+}
+
+.btn:hover::before {
+  left: 130%;
+}
+
+/* ---------- Navbar logo subtle pulse on load ---------- */
+.navbar-brand img {
+  animation: mmliLogoPop 0.6s ease;
+}
+
+@keyframes mmliLogoPop {
+  0% { transform: scale(0.7); opacity: 0; }
+  60% { transform: scale(1.08); opacity: 1; }
+  100% { transform: scale(1); }
+}
+
+/* ---------- Extra reveal directions ---------- */
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal-left.is-visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.reveal-right {
+  opacity: 0;
+  transform: translateX(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal-right.is-visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .reveal-left,
+  .reveal-right,
+  .card,
+  .card-img-top,
+  .card .fs-1,
+  .btn,
+  .btn::before,
+  .badge,
+  .fs-2,
+  .navbar-brand img,
+  .navbar-nav .nav-link::after,
+  section.bg-primary h1, section.bg-dark h1,
+  section.bg-primary p.lead, section.bg-dark p.lead,
+  section.bg-primary .btn, section.bg-dark .btn {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}
+
+/* ==========================================================================
+   NEW: Hero word-by-word reveal, animated stat counters, staggered welcome
+   cards, and ambient network/glow accents (inspired by reference video)
+   ========================================================================== */
+
+/* ---------- Hero: word-by-word reveal ---------- */
+section.bg-primary h1.hero-split {
+  animation: none; /* replaced by per-word spans below */
+}
+
+.hero-split .word {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(0.5em) rotateX(-40deg);
+  filter: blur(4px);
+  animation: mmliWordIn 0.7s cubic-bezier(.2,.8,.2,1) forwards;
+  transform-origin: bottom;
+}
+
+@keyframes mmliWordIn {
+  to {
+    opacity: 1;
+    transform: translateY(0) rotateX(0deg);
+    filter: blur(0);
+  }
+}
+
+.hero-glow-wrap {
+  position: relative;
+  isolation: isolate;
+}
+
+.hero-glow-wrap::before {
+  content: "";
+  position: absolute;
+  inset: -40% -10% auto -10%;
+  height: 220%;
+  background: radial-gradient(closest-side, rgba(242, 169, 0, 0.28), transparent 70%);
+  z-index: -1;
+  opacity: 0;
+  animation: mmliGlowIn 1.4s ease 0.2s forwards;
+  pointer-events: none;
+}
+
+@keyframes mmliGlowIn {
+  to { opacity: 1; }
+}
+
+/* ---------- Stats: animated network/orbit backdrop ---------- */
+section.stats-orbit {
+  position: relative;
+  overflow: hidden;
+}
+
+section.stats-orbit .orbit-field {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+section.stats-orbit .orbit-field span {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(255, 212, 82, 0.55);
+  animation: mmliDrift linear infinite;
+}
+
+@keyframes mmliDrift {
+  0%   { transform: translateY(10px) translateX(0) scale(0.8); opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { transform: translateY(-90px) translateX(var(--drift-x, 20px)) scale(1.1); opacity: 0; }
+}
+
+section.stats-orbit .container { position: relative; z-index: 1; }
+
+/* ---------- Cascading "drop into place" entrance (used by cards + icons) ---------- */
+@keyframes mmliCascadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-34px) scale(0.88);
+    filter: blur(5px);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(4px) scale(1.015);
+    filter: blur(0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+.cascade-item {
+  opacity: 0;
+}
+
+.cascade-item.cascade-in {
+  animation: mmliCascadeIn 0.7s cubic-bezier(.22,.9,.32,1.1) forwards;
+}
+
+/* Stat number count-up + ring pulse */
+.stat-number {
+  display: inline-block;
+  font-variant-numeric: tabular-nums;
+}
+
+.stat-ring {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  margin-bottom: 6px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 212, 82, 0.35);
+}
+
+.stat-ring::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 212, 82, 0.55);
+  animation: mmliRingPulse 2.8s ease-out infinite;
+}
+
+.stat-ring.cascade-in::after {
+  animation: mmliRingPulse 2.8s ease-out 0.7s infinite;
+}
+
+.stat-ring .fs-2 { animation: mmliFloat 3s ease-in-out infinite; }
+
+.stat-ring.cascade-in .fs-2 { animation: mmliFloat 3s ease-in-out 0.7s infinite; }
+
+@keyframes mmliRingPulse {
+  0%   { transform: scale(0.85); opacity: 0.9; }
+  70%  { transform: scale(1.25); opacity: 0; }
+  100% { transform: scale(1.25); opacity: 0; }
+}
+
+/* ---------- Welcome section cards: real card surface + rich motion ---------- */
+.welcome-card {
+  position: relative;
+  opacity: 0;
+  transition: box-shadow 0.35s ease, border-color 0.35s ease, transform 0.35s ease;
+  border-radius: 18px;
+  padding: 30px 24px 26px;
+  height: 100%;
+  background: #fff;
+  border: 1px solid rgba(15, 42, 82, 0.08);
+  box-shadow: 0 10px 30px rgba(15, 42, 82, 0.10), 0 2px 8px rgba(15, 42, 82, 0.06);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.welcome-card.cascade-in {
+  animation: mmliCascadeIn 0.7s cubic-bezier(.22,.9,.32,1.1) forwards;
+}
+
+/* Top accent bar that sweeps in on hover */
+.welcome-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--mmli-gold), var(--mmli-navy));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.45s cubic-bezier(.19,1,.22,1);
+}
+
+.welcome-card:hover::before { transform: scaleX(1); }
+
+/* Soft glow that follows in on hover */
+.welcome-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(circle at 50% 0%, rgba(242, 169, 0, 0.10), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.welcome-card:hover::after { opacity: 1; }
+
+.welcome-card:hover {
+  transform: translateY(-10px) scale(1.015);
+  box-shadow: 0 26px 50px rgba(15, 42, 82, 0.20), 0 6px 16px rgba(15, 42, 82, 0.10);
+  border-color: rgba(242, 169, 0, 0.4);
+}
+
+.welcome-card h5 {
+  font-weight: 700;
+  color: var(--mmli-navy-dark);
+  margin-bottom: 10px;
+}
+
+.welcome-card p {
+  color: #5a6472;
+  margin-bottom: 0;
+}
+
+.welcome-card .welcome-icon {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: rgba(242, 169, 0, 0.12);
+  color: var(--mmli-gold-dark);
+  margin-bottom: 14px;
+  transition: transform 0.4s cubic-bezier(.34,1.56,.64,1), background 0.35s ease, box-shadow 0.35s ease;
+}
+
+.welcome-card .welcome-icon::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 1px solid rgba(242, 169, 0, 0.4);
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.welcome-card:hover .welcome-icon {
+  transform: scale(1.14) rotate(-8deg);
+  background: rgba(242, 169, 0, 0.22);
+  box-shadow: 0 6px 16px rgba(242, 169, 0, 0.25);
+}
+
+.welcome-card:hover .welcome-icon::after {
+  opacity: 1;
+  transform: scale(1);
+}
+
+@media (max-width: 767px) {
+  .welcome-card { padding: 24px 20px; }
+}
+
+/* ---------- Flagship banner: subtle shimmer border ---------- */
+section.flagship-shimmer {
+  position: relative;
+}
+
+section.flagship-shimmer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, transparent 40%, rgba(255,255,255,0.35) 50%, transparent 60%);
+  background-size: 220% 100%;
+  animation: mmliShimmer 5s ease-in-out infinite;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+}
+
+@keyframes mmliShimmer {
+  0%   { background-position: 140% 0; }
+  60%, 100% { background-position: -40% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-split .word,
+  .hero-glow-wrap::before,
+  section.stats-orbit .orbit-field span,
+  .stat-ring::after,
+  .stat-ring .fs-2,
+  .cascade-item,
+  .cascade-item.cascade-in,
+  .welcome-card,
+  .welcome-card::before,
+  .welcome-card::after,
+  .welcome-card .welcome-icon,
+  .welcome-card .welcome-icon::after,
+  section.flagship-shimmer::after {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+}
+
+/* If JavaScript is unavailable, never leave cascade content stuck hidden */
+.no-js .welcome-card,
+.no-js .stat-ring,
+.no-js .cascade-item {
+  opacity: 1 !important;
+  animation: none !important;
+  transform: none !important;
+  filter: none !important;
+}
