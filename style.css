@@ -306,5 +306,191 @@ section.bg-dark .btn {
     opacity: 1 !important;
   }
 }
-letter-spacing: 0.02em;
-                         }
+
+/* ==========================================================================
+   NEW: Hero word-by-word reveal, animated stat counters, staggered welcome
+   cards, and ambient network/glow accents (inspired by reference video)
+   ========================================================================== */
+
+/* ---------- Hero: word-by-word reveal ---------- */
+section.bg-primary h1.hero-split {
+  animation: none; /* replaced by per-word spans below */
+}
+
+.hero-split .word {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(0.5em) rotateX(-40deg);
+  filter: blur(4px);
+  animation: mmliWordIn 0.7s cubic-bezier(.2,.8,.2,1) forwards;
+  transform-origin: bottom;
+}
+
+@keyframes mmliWordIn {
+  to {
+    opacity: 1;
+    transform: translateY(0) rotateX(0deg);
+    filter: blur(0);
+  }
+}
+
+.hero-glow-wrap {
+  position: relative;
+  isolation: isolate;
+}
+
+.hero-glow-wrap::before {
+  content: "";
+  position: absolute;
+  inset: -40% -10% auto -10%;
+  height: 220%;
+  background: radial-gradient(closest-side, rgba(242, 169, 0, 0.28), transparent 70%);
+  z-index: -1;
+  opacity: 0;
+  animation: mmliGlowIn 1.4s ease 0.2s forwards;
+  pointer-events: none;
+}
+
+@keyframes mmliGlowIn {
+  to { opacity: 1; }
+}
+
+/* ---------- Stats: animated network/orbit backdrop ---------- */
+section.stats-orbit {
+  position: relative;
+  overflow: hidden;
+}
+
+section.stats-orbit .orbit-field {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+section.stats-orbit .orbit-field span {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(255, 212, 82, 0.55);
+  animation: mmliDrift linear infinite;
+}
+
+@keyframes mmliDrift {
+  0%   { transform: translateY(10px) translateX(0) scale(0.8); opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { transform: translateY(-90px) translateX(var(--drift-x, 20px)) scale(1.1); opacity: 0; }
+}
+
+section.stats-orbit .container { position: relative; z-index: 1; }
+
+/* Stat number count-up + ring pulse */
+.stat-number {
+  display: inline-block;
+  font-variant-numeric: tabular-nums;
+}
+
+.stat-ring {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  margin-bottom: 6px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 212, 82, 0.35);
+}
+
+.stat-ring::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 212, 82, 0.55);
+  animation: mmliRingPulse 2.8s ease-out infinite;
+}
+
+.stat-ring .fs-2 { animation: mmliFloat 3s ease-in-out infinite; }
+
+@keyframes mmliRingPulse {
+  0%   { transform: scale(0.85); opacity: 0.9; }
+  70%  { transform: scale(1.25); opacity: 0; }
+  100% { transform: scale(1.25); opacity: 0; }
+}
+
+/* ---------- Welcome section cards: staggered rise + hover lift ---------- */
+.welcome-card {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.6s ease, transform 0.6s cubic-bezier(.19,1,.22,1), box-shadow 0.3s ease;
+  border-radius: 14px;
+  padding: 22px 16px;
+  height: 100%;
+}
+
+.welcome-card.in-view { opacity: 1; transform: translateY(0); }
+
+.welcome-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 32px rgba(15, 42, 82, 0.12);
+}
+
+.welcome-card .welcome-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(242, 169, 0, 0.12);
+  color: var(--mmli-gold-dark);
+  margin-bottom: 10px;
+  transition: transform 0.35s ease, background 0.35s ease;
+}
+
+.welcome-card:hover .welcome-icon {
+  transform: scale(1.12) rotate(-6deg);
+  background: rgba(242, 169, 0, 0.22);
+}
+
+/* ---------- Flagship banner: subtle shimmer border ---------- */
+section.flagship-shimmer {
+  position: relative;
+}
+
+section.flagship-shimmer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, transparent 40%, rgba(255,255,255,0.35) 50%, transparent 60%);
+  background-size: 220% 100%;
+  animation: mmliShimmer 5s ease-in-out infinite;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+}
+
+@keyframes mmliShimmer {
+  0%   { background-position: 140% 0; }
+  60%, 100% { background-position: -40% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-split .word,
+  .hero-glow-wrap::before,
+  section.stats-orbit .orbit-field span,
+  .stat-ring::after,
+  .stat-ring .fs-2,
+  .welcome-card,
+  .welcome-card .welcome-icon,
+  section.flagship-shimmer::after {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+}
