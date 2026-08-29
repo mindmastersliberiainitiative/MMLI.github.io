@@ -606,7 +606,7 @@
     ).join(' ');
   });
 
-  // ===== Stats: animated count-up when scrolled into view =====
+  // ===== Stats: animated count-up + cascading ring/icon entrance =====
   const statEls = document.querySelectorAll('.stat-number[data-count-to]');
   function animateCount(el) {
     const target = parseInt(el.dataset.countTo, 10);
@@ -636,6 +636,22 @@
     statEls.forEach(el => statObserver.observe(el));
   }
 
+  const statRings = document.querySelectorAll('.stat-ring');
+  if (statRings.length) {
+    statRings.forEach((ring, i) => {
+      ring.style.animationDelay = (i * 0.14) + 's';
+    });
+    const ringObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('cascade-in');
+          ringObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.3 });
+    statRings.forEach(ring => ringObserver.observe(ring));
+  }
+
   // ===== Stats: ambient drifting particle field =====
   const orbitField = document.querySelector('.stats-orbit .orbit-field');
   if (orbitField) {
@@ -651,22 +667,23 @@
     }
   }
 
-  // ===== Welcome cards: staggered scroll reveal =====
+  // ===== Welcome cards: cascading "drop into place" entrance =====
   const welcomeCards = document.querySelectorAll('#welcomeCards .welcome-card');
   if (welcomeCards.length) {
     welcomeCards.forEach((card, i) => {
-      card.style.transitionDelay = (i * 0.1) + 's';
+      card.style.animationDelay = (i * 0.14) + 's';
     });
     const welcomeObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          entry.target.classList.add('in-view');
+          entry.target.classList.add('cascade-in');
           welcomeObserver.unobserve(entry.target);
         }
       });
     }, { threshold: 0.15 });
     welcomeCards.forEach(card => welcomeObserver.observe(card));
   }
+
 
   // Floating Confirmed Schools badge — entrance animation
   const fab = document.getElementById('mmli-fab');
