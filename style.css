@@ -437,8 +437,8 @@ section.stats-orbit .container { position: relative; z-index: 1; }
   padding: 30px 24px 26px;
   height: 100%;
   background: #fff;
-  border: 1px solid rgba(15, 42, 82, 0.07);
-  box-shadow: 0 8px 24px rgba(15, 42, 82, 0.06);
+  border: 1px solid rgba(15, 42, 82, 0.08);
+  box-shadow: 0 10px 30px rgba(15, 42, 82, 0.10), 0 2px 8px rgba(15, 42, 82, 0.06);
   overflow: hidden;
   isolation: isolate;
 }
@@ -478,8 +478,8 @@ section.stats-orbit .container { position: relative; z-index: 1; }
 
 .welcome-card:hover {
   transform: translateY(-10px) scale(1.015);
-  box-shadow: 0 20px 40px rgba(15, 42, 82, 0.16);
-  border-color: rgba(242, 169, 0, 0.35);
+  box-shadow: 0 26px 50px rgba(15, 42, 82, 0.20), 0 6px 16px rgba(15, 42, 82, 0.10);
+  border-color: rgba(242, 169, 0, 0.4);
 }
 
 .welcome-card h5 {
