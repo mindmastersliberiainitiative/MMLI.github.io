@@ -2455,7 +2455,8 @@ const LOGO_DATA_URI = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAAEsCAY
       console.error(err);
       btn.disabled = false;
       btn.innerHTML = "Submit Application";
-      alert("Something went wrong submitting your application. Please check your connection and try again.");
+      const detail = (err && (err.message || err.error_description || err.details)) || String(err);
+      alert("Something went wrong submitting your application:\n\n" + detail + "\n\nPlease screenshot this and try again, or contact support.");
     }
   }
 
